@@ -75,10 +75,19 @@ def InferenceEnsemble(longueurChaineMax : int, reseau : list, entrees : list):
         resultats.append(FonctionActivation(sortie))
     return resultats
 
-def Entrainer(longueurChaineMax : int, reseau : list, entrees : list):
-    sortiesAttendues = zip(*entrees)[1]
+def Bool2Int(b):
+    if b:
+        return 1
+    return 0
+
+def Entrainer(longueurChaineMax: int, reseau: list, entrees: list):
+    sortiesAttendues = list(zip(*entrees))[1]  # Explicitly convert zip result to list
     sorties = InferenceEnsemble(longueurChaineMax, reseau, entrees)
     for i in range(len(sorties)):
+        erreur = abs(Bool2Int(sortiesAttendues[i]) - Bool2Int(sorties[i]))
+        if erreur > 0:
+            # ICI COMMENT FAIRE LA BACK PROPAGATION
+            pass
         print(str(FonctionActivation(sortiesAttendues[i])) + " [" + entrees[i][0] + "]")
 
 # ------------------------------------------------------------------------------------------------
