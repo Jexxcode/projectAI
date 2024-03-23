@@ -52,12 +52,14 @@ def ObtenirEntree(longueurChaineMax):
     entree : str = input("Entrer une chaine de caractères: ")
     return String2Tableau(longueurChaineMax, entree)
 
+# ------------------------------------------------------------------------------------------------
 def String2Tableau(longueurChaineMax : int, chaine : str):
     tableauEntree = [0.0] * longueurChaineMax
     for i in range(min(longueurChaineMax, len(chaine))):
         tableauEntree[i] = ord(chaine[i]) / float(128.0)
     return tableauEntree
 
+# ------------------------------------------------------------------------------------------------
 def Charger() :
     mots = open("mots.txt").readlines()
     mots = [mot.rstrip("\n") for mot in mots]
@@ -68,6 +70,7 @@ def Charger() :
     shuffle(entrees)
     return entrees
 
+# ------------------------------------------------------------------------------------------------
 def InferenceEnsemble(longueurChaineMax : int, reseau : list, entrees : list):
     resultats = []
     for entree in entrees:
@@ -75,11 +78,13 @@ def InferenceEnsemble(longueurChaineMax : int, reseau : list, entrees : list):
         resultats.append(FonctionActivation(sortie))
     return resultats
 
+# ------------------------------------------------------------------------------------------------
 def Bool2Int(b):
     if b:
         return 1
     return 0
 
+# ------------------------------------------------------------------------------------------------
 def Entrainer(longueurChaineMax: int, reseau: list, entrees: list):
     sortiesAttendues = list(zip(*entrees))[1]  # Explicitly convert zip result to list
     sorties = InferenceEnsemble(longueurChaineMax, reseau, entrees)
