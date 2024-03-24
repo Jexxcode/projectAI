@@ -1,9 +1,8 @@
-import pickle
-import numpy as np
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.preprocessing.text import Tokenizer
-
+import pickle
+import numpy as np
 
 def activation_function(prediction):
     # Extraire l'indice de la classe prédite (0 pour lettre, 1 pour nombre)
@@ -48,7 +47,6 @@ def main():
         # Afficher la prédiction
         print("Prédiction :", prediction)
         print("Type de l'entrée :", activation_function(prediction))
-
 
 if __name__ == '__main__':
     main()

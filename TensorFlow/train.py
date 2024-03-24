@@ -25,9 +25,6 @@ def concatener_sequences(sequences_lettres, sequences_nombres, max_length):
     return np.array(features_train)
 
 
-
-
-
 def mots_to_sequences(mots_lettres, mots_nombres):
   tokenizer = Tokenizer()
   tokenizer.fit_on_texts(mots_lettres + mots_nombres)
@@ -51,7 +48,6 @@ def main():
     with open('C:\\Users\\Jeffrey\\Documents\\GitHub\\projectAI\\TensorFlow\\nombres.txt', 'r') as f:
         mots_nombres = f.readlines()
     
-
     # Convertir les mots en séquences d'entiers
     sequences_lettres, sequences_nombres, tokenizer = mots_to_sequences(mots_lettres, mots_nombres)
 
@@ -86,7 +82,6 @@ def main():
     # Sauvegarder le Tokenizer
     with open('tokenizer.pkl', 'wb') as f:
         pickle.dump(tokenizer, f)
-
 
 if __name__ == '__main__':
   main()
