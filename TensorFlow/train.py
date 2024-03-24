@@ -16,8 +16,17 @@ def create_model(vocab_size):
     model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
     return model
  
-def concatener_sequences(sequences_lettres, sequences_nombres):
-  return np.concatenate((sequences_lettres, sequences_nombres), axis=1)
+def concatener_sequences(sequences_lettres, sequences_nombres, max_length):
+    features_train = []
+    for seq_lettre, seq_nombre in zip(sequences_lettres, sequences_nombres):
+        concatenated_seq = list(seq_lettre[:max_length]) + list(seq_nombre[:max_length])  # Convertir en liste pour concaténer
+        padded_seq = concatenated_seq + [0] * max(0, max_length - len(concatenated_seq))
+        features_train.append(padded_seq)
+    return np.array(features_train)
+
+
+
+
 
 def mots_to_sequences(mots_lettres, mots_nombres):
   tokenizer = Tokenizer()
@@ -51,7 +60,7 @@ def main():
     padded_sequences_nombres = pad_sequences_to_max_length(sequences_nombres, max_length)
 
     # Concaténer les séquences pour former les caractéristiques
-    features_train = concatener_sequences(padded_sequences_lettres, padded_sequences_nombres)
+    features_train = concatener_sequences(padded_sequences_lettres, padded_sequences_nombres,max_length)
 
     # Créer les étiquettes
     labels_lettres = np.ones((len(padded_sequences_lettres),), dtype=int)
