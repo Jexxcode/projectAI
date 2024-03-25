@@ -67,7 +67,7 @@ def main():
     labels = prepare_labels(len(features_train))
 
     # Remplir les séquences pour s'assurer qu'elles ont toutes la même longueur
-    max_length = 20
+    max_length = 1
     features_train = pad_sequences(features_train, maxlen=max_length, padding='post')
 
     # Convertir les listes en tableaux numpy

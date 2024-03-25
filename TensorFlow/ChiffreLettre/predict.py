@@ -24,7 +24,7 @@ def preprocess_input(user_input, tokenizer, max_length):
         return None
 
 def main():
-    max_length = 20
+    max_length = 1
 
     # Charger le modèle entraîné
     model = load_model("C:/Users/Jeffrey/Documents/GitHub/projectAI/TensorFlow/ChiffreLettre/ChiffreLettreAI.h5")
