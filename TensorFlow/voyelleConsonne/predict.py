@@ -5,17 +5,20 @@ import pickle
 import numpy as np
 
 def activation_function(prediction):
-    # Utiliser l'indice pour déterminer le type de l'entrée
     if prediction > 0.5:
-        return "lettre"
+        return "Consonne"
     else:
-        return "nombre"
+        return "Voyelle"
 
 def preprocess_input(user_input, tokenizer, max_length):
-    if user_input.isdigit() or user_input.isalpha():
-        sequence = tokenizer.texts_to_sequences([user_input])
-        padded_sequence = pad_sequences(sequence, maxlen=max_length, padding='post')
-        return padded_sequence
+    if  len(user_input) == 1:
+        if user_input.isdigit() or user_input.isalpha() :
+            sequence = tokenizer.texts_to_sequences([user_input])
+            padded_sequence = pad_sequences(sequence, maxlen=max_length, padding='post')
+            return padded_sequence
+        else:
+            print("L'entrée doit être une seule lettre ou un seul chiffre.")
+            return None
     else:
         print("L'entrée doit être une seule lettre ou un seul chiffre.")
         return None
@@ -24,10 +27,10 @@ def main():
     max_length = 20
 
     # Charger le modèle entraîné
-    model = load_model("mon_modele.h5")
+    model = load_model("C:/Users/Jeffrey/Documents/GitHub/projectAI/TensorFlow/voyelleConsonne/VoyelleConsonneAI.h5")
 
     # Charger le Tokenizer
-    with open('tokenizer.pkl', 'rb') as f:
+    with open('C:/Users/Jeffrey/Documents/GitHub/projectAI/TensorFlow/voyelleConsonne/tokenizer.pkl', 'rb') as f:
         tokenizer = pickle.load(f)
 
     while True:

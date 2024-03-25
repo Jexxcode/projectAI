@@ -49,17 +49,17 @@ def input_process(input_str):
 
 def main():
     # Charger les données d'entraînement
-    with open('lettre.txt', 'r') as f:
+    with open('C:/Users/Jeffrey/Documents/GitHub/projectAI/TensorFlow/ChiffreLettre/lettre.txt', 'r') as f:
         words_letters = f.readlines()
 
-    with open('chiffre.txt', 'r') as f:
+    with open('C:/Users/Jeffrey/Documents/GitHub/projectAI/TensorFlow/ChiffreLettre/chiffre.txt', 'r') as f:
         words_numbers = f.readlines()
     
     tokenizer = Tokenizer()
     tokenizer.fit_on_texts(words_letters + words_numbers)
     sequences_letters = tokenizer.texts_to_sequences(words_letters)
     sequences_numbers = tokenizer.texts_to_sequences(words_numbers)
-
+    
     # Concaténer les séquences pour former les caractéristiques
     features_train = concat_sequences(sequences_letters, sequences_numbers)
 
@@ -69,7 +69,7 @@ def main():
     # Remplir les séquences pour s'assurer qu'elles ont toutes la même longueur
     max_length = 20
     features_train = pad_sequences(features_train, maxlen=max_length, padding='post')
-
+    
     # Convertir les listes en tableaux numpy
     features_train = np.array(features_train)
     labels = np.array(labels)
@@ -86,10 +86,10 @@ def main():
     model.fit(features_train, labels, epochs=30, batch_size=70)
 
     # Sauvegarder le modèle entraîné
-    model.save("mon_modele.h5")
+    model.save("C:/Users/Jeffrey/Documents/GitHub/projectAI/TensorFlow/ChiffreLettre/ChiffreLettreAI.h5")
 
     # Sauvegarder le Tokenizer
-    with open('tokenizer.pkl', 'wb') as f:
+    with open('C:/Users/Jeffrey/Documents/GitHub/projectAI/TensorFlow/ChiffreLettre/tokenizer.pkl', 'wb') as f:
         pickle.dump(tokenizer, f)
 
 if __name__ == '__main__':
