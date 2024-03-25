@@ -5,7 +5,6 @@ import pickle
 import numpy as np
 
 def activation_function(prediction):
-    
     # Utiliser l'indice pour déterminer le type de l'entrée
     if prediction > 0.5:
         return "lettre"
@@ -13,9 +12,13 @@ def activation_function(prediction):
         return "nombre"
 
 def preprocess_input(user_input, tokenizer, max_length):
-    sequence = tokenizer.texts_to_sequences([user_input])
-    padded_sequence = pad_sequences(sequence, maxlen=max_length, padding='post')
-    return padded_sequence
+    if user_input.isdigit() or user_input.isalpha():
+        sequence = tokenizer.texts_to_sequences([user_input])
+        padded_sequence = pad_sequences(sequence, maxlen=max_length, padding='post')
+        return padded_sequence
+    else:
+        print("L'entrée doit être une seule lettre ou un seul chiffre.")
+        return None
 
 def main():
     max_length = 20
@@ -38,13 +41,13 @@ def main():
       
         # Prétraiter l'entrée utilisateur
         preprocessed_input = preprocess_input(user_input, tokenizer, max_length)
+        if preprocessed_input is not None and preprocessed_input.size > 0:
+            # Faire une prédiction avec le modèle
+            prediction = model.predict(preprocessed_input)
 
-        # Faire une prédiction avec le modèle
-        prediction = model.predict(preprocessed_input)
-
-        # Afficher la prédiction
-        print("Prédiction :", prediction)
-        print("Type de l'entrée :", activation_function(prediction))
+            # Afficher la prédiction
+            print("Prédiction :", prediction)
+            print("Type de l'entrée :", activation_function(prediction))
 
 if __name__ == '__main__':
     main()
