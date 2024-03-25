@@ -5,11 +5,9 @@ import pickle
 import numpy as np
 
 def activation_function(prediction):
-    # Extraire l'indice de la classe prédite (0 pour lettre, 1 pour nombre)
-    predicted_class_index = np.argmax(prediction)
     
     # Utiliser l'indice pour déterminer le type de l'entrée
-    if predicted_class_index == 0:
+    if prediction > 0.5:
         return "lettre"
     else:
         return "nombre"
