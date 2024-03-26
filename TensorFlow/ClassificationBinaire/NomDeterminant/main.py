@@ -18,10 +18,10 @@ def create_model(input_shape):
 
 def main():
     # Charger les données d'entraînement
-    with open('C:/Users/Jeffrey/Documents/GitHub/projectAI/TensorFlow/ClassificationBinaire/NomDeterminant/dictionnaireFR.txt', 'r') as f:
+    with open('TensorFlow/ClassificationBinaire/NomDeterminant/dictionnaireFR.txt', 'r') as f:
         mots_nom = f.readlines()
 
-    with open('C:/Users/Jeffrey/Documents/GitHub/projectAI/TensorFlow/ClassificationBinaire/NomDeterminant/determinant.txt', 'r') as f:
+    with open('TensorFlow/ClassificationBinaire/NomDeterminant/determinant.txt', 'r') as f:
         mots_determinant = f.readlines()
     
     # Concaténer les mots pour former les caractéristiques
@@ -55,10 +55,10 @@ def main():
     model.fit(features_train, labels, epochs=30, batch_size=70)
 
     # Sauvegarder le modèle entraîné
-    model.save("C:/Users/Jeffrey/Documents/GitHub/projectAI/TensorFlow/ClassificationBinaire/NomDeterminant/nomDeterminantAI.h5")
+    model.save("TensorFlow/ClassificationBinaire/NomDeterminant/nomDeterminantAI.h5")
 
     # Sauvegarder le Tokenizer
-    with open('C:/Users/Jeffrey/Documents/GitHub/projectAI/TensorFlow/ClassificationBinaire/NomDeterminant/tokenizer.pkl', 'wb') as f:
+    with open('TensorFlow/ClassificationBinaire/NomDeterminant/tokenizer.pkl', 'wb') as f:
         pickle.dump(tokenizer, f)
 
 if __name__ == '__main__':

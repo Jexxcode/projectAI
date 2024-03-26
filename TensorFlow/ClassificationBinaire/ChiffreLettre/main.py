@@ -50,10 +50,10 @@ def input_process(input_str):
 def main():
     # Charger les données d'entraînement
 
-    with open('C:/Users/Jeffrey/Documents/GitHub/projectAI/TensorFlow/ClassificationBinaire/ChiffreLettre/lettre.txt', 'r') as f:
+    with open('TensorFlow/ClassificationBinaire/ChiffreLettre/lettre.txt', 'r') as f:
         words_letters = f.readlines()
 
-    with open('C:/Users/Jeffrey/Documents/GitHub/projectAI/TensorFlow/ClassificationBinaire/ChiffreLettre/chiffre.txt', 'r') as f:
+    with open('TensorFlow/ClassificationBinaire/ChiffreLettre/chiffre.txt', 'r') as f:
         words_numbers = f.readlines()
     
     tokenizer = Tokenizer()
@@ -87,10 +87,10 @@ def main():
     model.fit(features_train, labels, epochs=30, batch_size=70)
 
     # Sauvegarder le modèle entraîné
-    model.save("C:/Users/Jeffrey/Documents/GitHub/projectAI/TensorFlow/ClassificationBinaire/ChiffreLettre/ChiffreLettreAI.h5")
+    model.save("TensorFlow/ClassificationBinaire/ChiffreLettre/ChiffreLettreAI.h5")
 
     # Sauvegarder le Tokenizer
-    with open('C:/Users/Jeffrey/Documents/GitHub/projectAI/TensorFlow/ClassificationBinaire/ChiffreLettre/tokenizer.pkl', 'wb') as f:
+    with open('TensorFlow/ClassificationBinaire/ChiffreLettre/tokenizer.pkl', 'wb') as f:
         pickle.dump(tokenizer, f)
 
 if __name__ == '__main__':

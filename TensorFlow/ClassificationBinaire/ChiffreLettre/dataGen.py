@@ -2,13 +2,13 @@ from random import random
 from math import floor
 from random import randint
 
-with open("C:/Users/Jeffrey/Documents/GitHub/projectAI/TensorFlow/ClassificationBinaire/ChiffreLettre/chiffre.txt", "w") as file:
+with open("TensorFlow/ClassificationBinaire/ChiffreLettre/chiffre.txt", "w") as file:
     # Générer et écrire 10 000 chiffres aléatoires entre 0 et 9 dans le fichier
     for _ in range(10000):
         s = str(randint(0, 9))  # Générer un chiffre aléatoire entre 0 et 9
         file.write(s + "\n")
     
-file = open("C:/Users/Jeffrey/Documents/GitHub/projectAI/TensorFlow/ClassificationBinaire/ChiffreLettre/lettre.txt", "w")
+file = open("TensorFlow/ClassificationBinaire/ChiffreLettre/lettre.txt", "w")
 for i in range(10000):
     nbLettres = 1
     s = ""

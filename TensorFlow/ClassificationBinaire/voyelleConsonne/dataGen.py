@@ -12,13 +12,13 @@ def generer_voyelle():
     return voyelles[floor(random() * len(voyelles))]
 
 # Générer et écrire 10 000 consonnes dans le fichier consonne.txt
-with open("C:/Users/Jeffrey/Documents/GitHub/projectAI/TensorFlow/ClassificationBinaire/voyelleConsonne/consonne.txt", "w") as file_consonne:
+with open("TensorFlow/ClassificationBinaire/voyelleConsonne/consonne.txt", "w") as file_consonne:
     for _ in range(10000):
         consonne = generer_consonne()
         file_consonne.write(consonne + "\n")
 
 # Générer et écrire 10 000 voyelles dans le fichier voyelle.txt
-with open("C:/Users/Jeffrey/Documents/GitHub/projectAI/TensorFlow/ClassificationBinaire/voyelleConsonne/voyelle.txt", "w") as file_voyelle:
+with open("TensorFlow/ClassificationBinaire/voyelleConsonne/voyelle.txt", "w") as file_voyelle:
     for _ in range(10000):
         voyelle = generer_voyelle()
         file_voyelle.write(voyelle + "\n")

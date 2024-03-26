@@ -27,10 +27,10 @@ def main():
     max_length = 4  # Modifier la longueur de l'entrée pour correspondre à celle attendue par le modèle
 
     # Charger le modèle entraîné
-    model = load_model("C:/Users/Jeffrey/Documents/GitHub/projectAI/TensorFlow/ClassificationBinaire/NomDeterminant/nomDeterminantAI.h5")
+    model = load_model("TensorFlow/ClassificationBinaire/NomDeterminant/nomDeterminantAI.h5")
 
     # Charger le Tokenizer
-    with open('C:/Users/Jeffrey/Documents/GitHub/projectAI/TensorFlow/ClassificationBinaire/NomDeterminant/tokenizer.pkl', 'rb') as f:
+    with open('TensorFlow/ClassificationBinaire/NomDeterminant/tokenizer.pkl', 'rb') as f:
         tokenizer = pickle.load(f)
 
     while True:

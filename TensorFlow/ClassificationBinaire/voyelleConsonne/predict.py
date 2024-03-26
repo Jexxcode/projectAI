@@ -27,10 +27,10 @@ def main():
     max_length = 1
 
     # Charger le modèle entraîné
-    model = load_model("C:/Users/Jeffrey/Documents/GitHub/projectAI/TensorFlow/ClassificationBinaire/voyelleConsonne/VoyelleConsonneAI.h5")
+    model = load_model("TensorFlow/ClassificationBinaire/voyelleConsonne/VoyelleConsonneAI.h5")
 
     # Charger le Tokenizer
-    with open('C:/Users/Jeffrey/Documents/GitHub/projectAI/TensorFlow/ClassificationBinaire/voyelleConsonne/tokenizer.pkl', 'rb') as f:
+    with open('TensorFlow/ClassificationBinaire/voyelleConsonne/tokenizer.pkl', 'rb') as f:
         tokenizer = pickle.load(f)
 
     while True:
