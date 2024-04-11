@@ -1,6 +1,6 @@
 from random import random
 from random import shuffle
-from math import floor, ceil
+from math import floor, ceil, log2
 
 def FonctionActivation(value : float) -> bool:
     if(value < 0.5):
@@ -12,20 +12,34 @@ def FonctionActivation(value : float) -> bool:
 class Perceptron:
     p1 : float = 0
     p2 : float = 0
+    lastI1 : float = 0
+    lastI2 : float = 0
     def __init__(self):
         self.p1 = random()
         self.p2 = random()
         pass
 
     def f(self, i1 : float, i2 : float) -> float:
+        lastI1 = i1
+        lastI2 = i2
         return self.p1 * i1 + self.p2 * i2
+
+    # Add a method to update weights
+    def update_weights(self, learning_rate, delta):
+        # Update p1 and p2 based on delta and learning_rate
+        self.p1 -= learning_rate * delta * self.lastI1
+        self.p2 -= learning_rate * delta * self.lastI2
 
 # ------------------------------------------------------------------------------------------------
 def CreerReseauNeurones(longueurChaineMax : int):
+    nombredeCouches = int(log2(longueurChaineMax))
     couches = []
     nbPerceptronsDansCoucheSuivante = floor(longueurChaineMax / 2)
-    while nbPerceptronsDansCoucheSuivante > 0:
-        couches.append([Perceptron()] * nbPerceptronsDansCoucheSuivante)
+    for iCouche in range(nombredeCouches):
+        couche = []
+        for i in range(nbPerceptronsDansCoucheSuivante):
+            couche.append(Perceptron())
+        couches.append(couche)
         nbPerceptronsDansCoucheSuivante = floor(nbPerceptronsDansCoucheSuivante / 2)
     return couches
 
@@ -61,9 +75,9 @@ def String2Tableau(longueurChaineMax : int, chaine : str):
 
 # ------------------------------------------------------------------------------------------------
 def Charger() :
-    mots = open("mots.txt").readlines()
+    mots = open("perceptron/mots.txt").readlines()
     mots = [mot.rstrip("\n") for mot in mots]
-    nombres = open("nombres.txt").readlines()
+    nombres = open("perceptron/nombres.txt").readlines()
     nombres = [nombre.rstrip("\n") for nombre in nombres]
     entrees = list(zip(mots, [True] * len(mots)))
     entrees.extend(zip(nombres,[False]* len(nombres)))
@@ -84,26 +98,66 @@ def Bool2Int(b):
         return 1
     return 0
 
-# ------------------------------------------------------------------------------------------------
-def Entrainer(longueurChaineMax: int, reseau: list, entrees: list):
-    sortiesAttendues = list(zip(*entrees))[1]  # Explicitly convert zip result to list
-    sorties = InferenceEnsemble(longueurChaineMax, reseau, entrees)
-    for i in range(len(sorties)):
-        erreur = abs(Bool2Int(sortiesAttendues[i]) - Bool2Int(sorties[i]))
-        if erreur > 0:
-            # ICI COMMENT FAIRE LA BACK PROPAGATION
-            pass
-        print(str(FonctionActivation(sortiesAttendues[i])) + " [" + entrees[i][0] + "]")
+# Add a simple loss function for demonstration
+def mean_squared_error(predicted, target):
+    return (predicted - target) ** 2
+
+# Add derivative of the activation function (assuming binary step for simplicity)
+def derivative_activation_function(output):
+    # Derivative of binary step is not well-defined at 0, so this is a placeholder
+    return 1 if output != 0.5 else 0
+
+def AfficherReseau(reseau):
+    for i, couche in enumerate(reseau):
+        print(f"Couche {i}:")
+        for j, perceptron in enumerate(couche):
+            print(f"   Perceptron {j}: p1 = {perceptron.p1}, p2 = {perceptron.p2}")
+
+def Entrainer(longueurChaineMax, reseau, entrees):
+    learning_rate = 0.001
+    for epoch in range(100):  # Number of epochs
+        total_error = 0
+        for entree in entrees:
+            sortie = Inference(reseau, String2Tableau(longueurChaineMax, entree[0]))
+            expected_output = Bool2Int(entree[1])
+            error = mean_squared_error(sortie, expected_output)
+            total_error += error
+            
+            # Backpropagation step
+            # Calculate delta for output layer
+            derivative_loss = 2 * (sortie - expected_output)  # dError/dOutput
+            derivative_output = derivative_activation_function(sortie)  # dOutput/dNetInput
+            delta = derivative_loss * derivative_output
+            
+            # For simplicity, updating only the last layer's weights as an example
+            for couche in reseau[::-1]:
+                for perceptron in couche:
+                    perceptron.update_weights(learning_rate, delta)
+        print("-----------------------------")
+        AfficherReseau(reseau)
+        print(f"Epoch {epoch}, Total Error: {total_error}")
+        
+# # ------------------------------------------------------------------------------------------------
+# def Entrainer(longueurChaineMax: int, reseau: list, entrees: list):
+#     sortiesAttendues = list(zip(*entrees))[1]  # Explicitly convert zip result to list
+#     sorties = InferenceEnsemble(longueurChaineMax, reseau, entrees)
+#     for i in range(len(sorties)):
+#         erreur = abs(Bool2Int(sortiesAttendues[i]) - Bool2Int(sorties[i]))
+#         if erreur > 0:
+#             # ICI COMMENT FAIRE LA BACK PROPAGATION
+#             pass
+#         print(str(FonctionActivation(sortiesAttendues[i])) + " [" + entrees[i][0] + "]")
 
 # ------------------------------------------------------------------------------------------------
 def main():
     entrees = Charger()
     longueurChaineMax = 16
-    tableauEntree = ObtenirEntree(longueurChaineMax)
     ensembleEntrainement = entrees[0:floor(len(entrees) * 0.80)]
     ensembleValidation = entrees[ceil(len(entrees) * 0.80):]
     reseau = CreerReseauNeurones(longueurChaineMax)
     Entrainer(longueurChaineMax, reseau, ensembleEntrainement)
+
+    tableauEntree = ObtenirEntree(longueurChaineMax)
     sortie = Inference(reseau, tableauEntree)
 
 # ------------------------------------------------------------------------------------------------
