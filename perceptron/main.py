@@ -20,8 +20,8 @@ class Perceptron:
         pass
 
     def f(self, i1 : float, i2 : float) -> float:
-        lastI1 = i1
-        lastI2 = i2
+        self.lastI1 = i1
+        self.lastI2 = i2
         return self.p1 * i1 + self.p2 * i2
 
     # Add a method to update weights
@@ -134,7 +134,7 @@ def Entrainer(longueurChaineMax, reseau, entrees):
                 for perceptron in couche:
                     perceptron.update_weights(learning_rate, delta)
         print("-----------------------------")
-        AfficherReseau(reseau)
+        # AfficherReseau(reseau)
         print(f"Epoch {epoch}, Total Error: {total_error}")
         
 # # ------------------------------------------------------------------------------------------------
