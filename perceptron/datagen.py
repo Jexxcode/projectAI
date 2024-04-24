@@ -8,7 +8,7 @@ for i in range(10000):
     
 file = open("mots.txt", "w")
 for i in range(10000):
-    nbLettres = floor(random() * 16) + 1
+    nbLettres = floor(random() * 9) + 1
     s = ""
     for i in range(nbLettres):
         ordChar = floor(random() * 26)

@@ -114,8 +114,8 @@ def AfficherReseau(reseau):
             print(f"   Perceptron {j}: p1 = {perceptron.p1}, p2 = {perceptron.p2}")
 
 def Entrainer(longueurChaineMax, reseau, entrees):
-    learning_rate = 0.001
-    for epoch in range(100):  # Number of epochs
+    learning_rate = 0.01
+    for epoch in range(2000):  # Number of epochs
         total_error = 0
         for entree in entrees:
             sortie = Inference(reseau, String2Tableau(longueurChaineMax, entree[0]))
@@ -129,24 +129,12 @@ def Entrainer(longueurChaineMax, reseau, entrees):
             derivative_output = derivative_activation_function(sortie)  # dOutput/dNetInput
             delta = derivative_loss * derivative_output
             
-            # For simplicity, updating only the last layer's weights as an example
             for couche in reseau[::-1]:
                 for perceptron in couche:
-                    perceptron.update_weights(learning_rate, delta)
+                    perceptron.update_weights(learning_rate, delta / (len(reseau) * len(couche)))
         print("-----------------------------")
         # AfficherReseau(reseau)
         print(f"Epoch {epoch}, Total Error: {total_error}")
-        
-# # ------------------------------------------------------------------------------------------------
-# def Entrainer(longueurChaineMax: int, reseau: list, entrees: list):
-#     sortiesAttendues = list(zip(*entrees))[1]  # Explicitly convert zip result to list
-#     sorties = InferenceEnsemble(longueurChaineMax, reseau, entrees)
-#     for i in range(len(sorties)):
-#         erreur = abs(Bool2Int(sortiesAttendues[i]) - Bool2Int(sorties[i]))
-#         if erreur > 0:
-#             # ICI COMMENT FAIRE LA BACK PROPAGATION
-#             pass
-#         print(str(FonctionActivation(sortiesAttendues[i])) + " [" + entrees[i][0] + "]")
 
 # ------------------------------------------------------------------------------------------------
 def main():
@@ -157,8 +145,13 @@ def main():
     reseau = CreerReseauNeurones(longueurChaineMax)
     Entrainer(longueurChaineMax, reseau, ensembleEntrainement)
 
-    tableauEntree = ObtenirEntree(longueurChaineMax)
-    sortie = Inference(reseau, tableauEntree)
+    while True:
+        tableauEntree = ObtenirEntree(longueurChaineMax)
+        sortie = Inference(reseau, tableauEntree)
+        if FonctionActivation(sortie):
+            print("Est un mot")
+        else:
+            print("Est un nombre")
 
 # ------------------------------------------------------------------------------------------------
 if __name__ == "__main__":
