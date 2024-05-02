@@ -113,25 +113,33 @@ def AfficherReseau(reseau):
         for j, perceptron in enumerate(couche):
             print(f"   Perceptron {j}: p1 = {perceptron.p1}, p2 = {perceptron.p2}")
 
+def DeterminerNombreTotalPerceptrons(reseau):
+    nb = 0
+    for i, couche in enumerate(reseau):
+        for j, perceptron in enumerate(couche):
+            nb += 1
+    return nb
+
 def Entrainer(longueurChaineMax, reseau, entrees):
     learning_rate = 0.01
-    for epoch in range(2000):  # Number of epochs
+    nbPerceptrons = DeterminerNombreTotalPerceptrons(reseau)
+    for epoch in range(20):  # Number of epochs
         total_error = 0
         for entree in entrees:
             sortie = Inference(reseau, String2Tableau(longueurChaineMax, entree[0]))
             expected_output = Bool2Int(entree[1])
-            error = mean_squared_error(sortie, expected_output)
+            error = mean_squared_error(FonctionActivation(sortie), expected_output)
             total_error += error
             
             # Backpropagation step
             # Calculate delta for output layer
-            derivative_loss = 2 * (sortie - expected_output)  # dError/dOutput
-            derivative_output = derivative_activation_function(sortie)  # dOutput/dNetInput
+            derivative_loss = 2 * (FonctionActivation(sortie) - expected_output)  # dError/dOutput
+            derivative_output = derivative_activation_function(FonctionActivation(sortie))  # dOutput/dNetInput
             delta = derivative_loss * derivative_output
             
             for couche in reseau[::-1]:
                 for perceptron in couche:
-                    perceptron.update_weights(learning_rate, delta / (len(reseau) * len(couche)))
+                    perceptron.update_weights(learning_rate, delta / nbPerceptrons)
         print("-----------------------------")
         # AfficherReseau(reseau)
         print(f"Epoch {epoch}, Total Error: {total_error}")
