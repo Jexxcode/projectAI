@@ -20,9 +20,6 @@ def create_model(input_shape):
 def concat_sequences(sequences_letters, sequences_numbers):
     return sequences_letters + sequences_numbers
 
-# Convertir les caractères en codes ASCII
-def char_to_ascii(characters):
-    return [ord(char) for char in characters]
 
 # Préparer les étiquettes
 def prepare_labels(total_samples):

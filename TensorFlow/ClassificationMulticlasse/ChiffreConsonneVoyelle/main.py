@@ -16,14 +16,16 @@ def create_model(input_shape, num_classes):
     model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
     return model
 
-# Convertir les caractères en codes ASCII
-def char_to_ascii(characters):
-    return [ord(char) for char in characters]
-
 # Préparer les étiquettes en one-hot encoding pour la classification multiclasse
 def prepare_labels(total_samples, num_classes):
-    labels = np.random.randint(num_classes, size=total_samples)
+    labels = []
+    samples_per_class = total_samples // num_classes
+
+    for i in range(num_classes):
+        labels.extend([i] * samples_per_class)
+
     return tf.keras.utils.to_categorical(labels, num_classes=num_classes)
+
 
 # Reste du code inchangé
 
@@ -45,7 +47,7 @@ def main():
     sequences_chiffres = tokenizer.texts_to_sequences(chiffres)
 
     # Concaténer les séquences pour former les caractéristiques
-    features_train = sequences_consonnes + sequences_voyelles
+    features_train = sequences_consonnes + sequences_voyelles + sequences_chiffres
 
 
     # Générer les étiquettes
